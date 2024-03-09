@@ -44,7 +44,10 @@ func New(prefixes []netip.Prefix, hosts []string, onHandle OnHandle) func(ctx *g
 	return func(ctx *gin.Context) {
 		passed, prefix, host, err := CanPass(ctx.ClientIP(), prefixes, hosts)
 		if onHandle == nil {
-			ctx.AbortWithStatus(http.StatusForbidden)
+			if !passed {
+				ctx.AbortWithStatus(http.StatusForbidden)
+				return
+			}
 		} else {
 			onHandle(ctx, passed, prefix, host, err)
 		}
