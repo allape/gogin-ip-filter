@@ -1,4 +1,4 @@
-package ip_filter
+package ipfilter
 
 import (
 	"github.com/gin-gonic/gin"
